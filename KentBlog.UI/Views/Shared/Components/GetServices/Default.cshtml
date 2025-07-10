@@ -1,0 +1,26 @@
+﻿@model List<KentBlog.Entity.Concrete.Services>
+
+<div class="row col-mb-50 mb-0 gx-5">
+
+	@foreach (var item in Model)
+	{
+		if (item.Status)
+		{
+			<div class="col-sm-6 col-lg-4">
+				<div class="feature-box fbox-center fbox-effect">
+					<div class="fbox-icon">
+						<a href="#"><i class="@item.Icon"></i></a>
+					</div>
+					<div class="fbox-content">
+						<h3>@item.Title</h3>
+						<p>@Html.Raw(item.Description)</p>
+					</div>
+				</div>
+			</div>
+		}
+		}
+
+
+
+
+</div>

@@ -1,0 +1,50 @@
+﻿@model List<KentBlog.Entity.Concrete.AboutUs>
+
+<div class="block-tab-2">
+    <ul class="nav nav-tabs nav-fill mb-5" id="canvas-tab" role="tablist">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+
+            var item = Model[i];
+            var isActive = i == 0 ? "active" : "";
+            var isSelected = i == 0 ? "true" : "false";
+
+            @if (item.Status)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link container-modules-loaded @isActive" id="canvas-tab-@item.Id"
+                            data-bs-toggle="pill" data-bs-target="#tab-@item.Id" type="button" role="tab"
+                            aria-controls="tab-@item.Id" aria-selected="@isSelected">
+                        <i class="@item.Icon"></i> @item.Title
+                    </button>
+                </li>
+
+            }
+
+          
+        }
+    </ul>
+
+    <div class="tab-content">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var item = Model[i];
+            var isActive = i == 0 ? "active show" : "";
+
+            @if (item.Status)
+            {
+                <div class="tab-pane fade @isActive" role="tabpanel" id="tab-@item.Id" aria-labelledby="canvas-tab-@item.Id" tabindex="0">
+                    <div class="row col-mb-30 align-items-center">
+                        <div class="col-md-7">
+                            <img src="@Url.Content(item.Image)" alt="@item.Title">
+                        </div>
+                        <div class="col-md-5">
+                            @Html.Raw(item.Description)
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+    </div>
+</div>

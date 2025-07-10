@@ -1,0 +1,193 @@
+﻿@model KentBlog.Entity.Concrete.GeneralSettings
+
+
+
+<div class="container">
+
+    <div class="footer-widgets-wrap">
+
+        <div class="row col-mb-50">
+            <h4>@Model.BusinessName</h4>
+            <div class="col-sm-4">
+
+
+
+                @if (!string.IsNullOrEmpty(Model.GoogleMaps))
+                {
+                    <iframe src="@Model.GoogleMaps" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                }
+
+            </div>
+
+            <div class="col-sm-8">
+
+                <div class="row gutter-50">
+                    <div class="col-lg-6 col-6">
+
+                        <div class="widget_general widget_links_general">
+
+                            <h4 class="text-transform-none ls-0">İletişim Bilgileri</h4>
+
+                            <ul>
+                                @if (!string.IsNullOrEmpty(Model.Address))
+                                {
+                                    <li> <i class="fa fa-location-dot me-2"></i> @Model.Address</li>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Address2))
+                                {
+                                    <li> <i class="fa fa-location-dot me-2"></i> @Model.Address2</li>
+                                }
+
+
+                                @if (!string.IsNullOrEmpty(Model.Phone))
+                                {
+                                    <li> <a href="tel:@Model.Phone"><i class="fa fa-phone me-2"></i> @Model.Phone</a> </li>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Phone2))
+                                {
+                                    <li> <a href="tel:@Model.Phone2"><i class="fa fa-phone me-2"></i> @Model.Phone2</a> </li>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Fax))
+                                {
+                                    <li>  <i class="fa fa-fax me-2"></i> @Model.Fax</li>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Fax2))
+                                {
+                                    <li>  <i class="fa fa-fax me-2"></i> @Model.Fax2</li>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Mail))
+                                {
+                                    <li> <a href="mailto:@Model.Mail"><i class="fa fa-envelope me-2"></i> @Model.Mail </a></li>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Mail2))
+                                {
+                                    <li> <a href="mailto:@Model.Mail2"><i class="fa fa-envelope me-2"></i> @Model.Mail2</a> </li>
+                                }
+
+                            </ul>
+
+
+                        </div>
+
+                    </div>
+
+
+                        @await Component.InvokeAsync("GetFooterBlogCategory")
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="copyrights">
+    <div class="container">
+
+        <div class="row col-mb-30">
+
+            <div class="col-md-4 text-center text-md-start">
+                <div class="d-flex justify-content-center justify-content-md-start">
+
+                    @if (!string.IsNullOrEmpty(Model.Facebook))
+                    {
+                        <a href="@Model.Facebook" class="social-icon si-small text-light bg-facebook" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Twitter))
+                    {
+                        <a href="@Model.Twitter" class="social-icon si-small text-light bg-x-twitter" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-twitter"></i>
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Instagram))
+                    {
+                        <a href="@Model.Instagram" class="social-icon si-small text-light bg-instagram" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.WhatsApp))
+                    {
+                        <a href="https://wa.me/@Model.WhatsApp" class="social-icon si-small text-light bg-dark bg-whatsapp" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.YouTube))
+                    {
+                        <a href="@Model.YouTube" class="social-icon si-small text-light bg-youtube" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-youtube"></i>
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.LinkedIn))
+                    {
+                        <a href="@Model.LinkedIn" class="social-icon si-small text-light bg-linkedin" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-linkedin"></i>
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Pinterest))
+                    {
+                        <a href="@Model.Pinterest" class="social-icon si-small text-light bg-dark bg-pinterest" style="--cnvs-socialicon-size:1.75rem;">
+                            <i class="fa-brands fa-pinterest"></i>
+                            <i class="fa-brands fa-pinterest"></i>
+                        </a>
+                    }
+
+
+                </div>
+            </div>
+
+            <div class="col-md-4 text-center text-md-center">
+                Kentmedia ©@DateTime.Now.Year Tüm Hakları Saklıdır<br>
+                @await Component.InvokeAsync("GetCopyrights")
+            </div>
+
+
+
+            <div class="col-md-4 text-center text-md-end">
+                <div class="copyright-links">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#cerezModal">Çerez Politikası</a>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="cerezModal" tabindex="-1" aria-labelledby="cerezModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cerezModalLabel">Çerez Politikası</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                        </div>
+                        <div class="modal-body py-3 px-3">
+                            <p>
+                                @await Component.InvokeAsync("CookieText")
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

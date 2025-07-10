@@ -1,0 +1,21 @@
+﻿@model KentBlog.Entity.Concrete.ThemeSettings
+
+
+<div class="col-12 col-sm-6 col-md-4 order-md-3 mb-4 mb-md-0">
+
+
+    <ul class="nav align-items-center @(int.TryParse(Model.TopBarDesign, out int TopBarDesign) && TopBarDesign == 1 ? "justify-content-start justify-content-sm-start" : "justify-content-end justify-content-sm-end")  ">
+
+        @await Component.InvokeAsync("HeaderContact")
+
+    </ul>
+
+</div>
+
+<div class="col-12 col-sm-6 col-md-4 d-flex order-md-1 mb-4 mb-sm-0 @(int.TryParse(Model.TopBarDesign, out int TopBarDesignSocial) && TopBarDesignSocial == 1 ? "justify-content-end justify-content-sm-end" : "justify-content-start justify-content-sm-start") ">
+    <div class="d-flex">
+
+        @await Component.InvokeAsync("HeaderSocialMedia")
+
+    </div>
+</div>

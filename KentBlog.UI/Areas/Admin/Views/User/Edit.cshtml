@@ -1,0 +1,94 @@
+﻿@model KentBlog.UI.ViewModels.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+
+    <div class="row mt-4">
+        <div class="col-10">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Kullanıcı Düzenle</h5>
+                </div>
+
+                <div class="card-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="FullName">Adı Soyadı <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="FullName" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="Email">Email <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" asp-for="Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Telefon -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="PhoneNumber">Telefon</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="PhoneNumber" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Kullanıcı Adı -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="UserName">Kullanıcı Adı <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="UserName" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Rol -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="SelectedRole">Rol <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <select class="form-select" asp-for="SelectedRole" asp-items="Model.Roles">
+                                <option value="">Rol Seçiniz</option>
+                            </select>
+                            <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Yeni Şifre -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="Password">Yeni Şifre</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" asp-for="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Yeni Şifre Tekrar -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="ConfirmPassword">Yeni Şifre Tekrar</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" asp-for="ConfirmPassword" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

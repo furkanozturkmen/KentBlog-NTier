@@ -1,0 +1,46 @@
+﻿@model KentBlog.UI.ViewModels.AdminGeneralViewModel
+
+
+
+@foreach (var item in Model.GeneralSettings)
+{
+    if (Model.AdminSettings.WhatsAppEffect)
+    {
+        <a href="https://api.whatsapp.com/send?phone=@item.WhatsApp" class="float" target="_blank">
+            <i class="fa-brands fa-whatsapp my-float"></i>
+        </a>
+    }
+
+}
+
+
+
+@foreach (var item in Model.GeneralSettings)
+{
+    if (Model.AdminSettings.PhoneEffect)
+    {
+        <!-- Telefon Butonu -->
+        <link href="https://landingpage.kentahosting.com/Effective/hotlinephone.css" rel="stylesheet">
+
+        <div class="hotline-phone-ring-wrap">
+            <div class="hotline-phone-ring">
+                <div class="hotline-phone-ring-circle"></div>
+                <div class="hotline-phone-ring-circle-fill"></div>
+                <div class="hotline-phone-ring-img-circle">
+                    <a href="tel:@item.Phone" class="pps-btn-img">
+                        <img src="https://hemencdn.com/interface/platinum/img/phone.png" alt="Hotline" style="height: 20px;">
+                    </a>
+                </div>
+            </div>
+            <div class="hotline-bar">
+                <a href="tel:@item.Phone">
+                    <span class="text-hotline">@item.Phone</span>
+                </a>
+            </div>
+        </div>
+    }
+
+}
+
+
+

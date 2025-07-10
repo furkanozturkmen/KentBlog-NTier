@@ -1,0 +1,221 @@
+
+
+/* WhatsApp Floating Button */
+.float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 32px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse 2.5s infinite;
+}
+
+    .float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+.my-float {
+    line-height: 60px;
+}
+
+/* Attention Pulse Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+
+
+@-webkit-keyframes wh-popup-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(45px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes wh-popup-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(45px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes wh-popup-slide-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(45px);
+    }
+}
+
+@keyframes wh-popup-slide-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(45px);
+    }
+}
+
+@-webkit-keyframes phonering-alo-circle-anim {
+    0% {
+        transform: scale(0.5);
+        opacity: .1;
+    }
+
+    30% {
+        transform: scale(0.7);
+        opacity: .5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: .1;
+    }
+}
+
+@-webkit-keyframes phonering-alo-circle-fill-anim {
+    0%, 100% {
+        transform: scale(0.7);
+        opacity: .6;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: .6;
+    }
+}
+
+@-webkit-keyframes phonering-alo-circle-img-anim {
+    0%, 50%, 100% {
+        transform: rotate(0);
+    }
+
+    10%, 30% {
+        transform: rotate(-25deg);
+    }
+
+    20%, 40% {
+        transform: rotate(25deg);
+    }
+}
+
+@media(max-width: 768px) {
+    .hotline-bar {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+.fluid-width-video-wrapper {
+    height: 100%;
+}
+
+
+
+.widget_general {
+    --cnvs-widget-border: 1px solid rgba(var(--cnvs-contrast-rgb), 0.1);
+    --cnvs-widget-margin: 3rem;
+    --cnvs-widget-title-margin: 1.5rem;
+    --cnvs-widget-title-font-size: 0.9325rem;
+    --cnvs-widget-title-font-weight: 600;
+    --cnvs-widget-title-letter-spacing: 1px;
+    --cnvs-widget-title-text-transform: uppercase;
+    position: relative;
+    margin-top: var(--cnvs-widget-margin);
+}
+
+
+    .widget_general:first-child {
+        margin-top: 0;
+    }
+
+.widget_links_general li {
+    display: flex;
+    padding: 0.25rem 0;
+    font-size: 1rem;
+    list-style: none;
+    margin: 0;
+}
+
+
+
+.block-tab-2 .nav-tabs {
+    --bs-nav-tabs-border-width: 0px;
+    --bs-nav-link-color: #111;
+    --bs-nav-link-hover-color: var(--bs-danger);
+}
+
+    .block-tab-2 .nav-tabs .nav-item .nav-link {
+        position: relative;
+        font-size: 15px;
+        font-weight: 400;
+        padding: 0 0 20px 0;
+    }
+
+        .block-tab-2 .nav-tabs .nav-item .nav-link i {
+            display: block;
+            font-size: 38px;
+            margin: 0 0 10px 0;
+        }
+
+        .block-tab-2 .nav-tabs .nav-item .nav-link.active {
+            top: 0;
+        }
+
+            .block-tab-2 .nav-tabs .nav-item .nav-link.active i {
+                color: var(--bs-danger);
+            }
+
+            .block-tab-2 .nav-tabs .nav-item .nav-link.active::after {
+                content: '';
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                bottom: 0;
+                left: 50%;
+                margin-left: -3px;
+                border-radius: 50%;
+                background: var(--bs-danger);
+            }

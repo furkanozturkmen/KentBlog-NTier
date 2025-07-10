@@ -1,0 +1,296 @@
+﻿@model KentBlog.Entity.Concrete.Menu
+
+@{
+    ViewData["Title"] = "Menü Düzenle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- Alert Mesajları -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="MenuID" />
+    <input type="hidden" asp-for="Order" />
+    <input type="hidden" asp-for="MenuKey" value="@Model.MenuKey" />
+
+    <div class="row mt-4">
+        <div class="col-8">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Menü Düzenle</h5>
+                </div>
+
+                <div class="card-body">
+                    <div asp-validation-summary="All"></div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="PageType">Sayfa Türü <span style="color:red;">*</span></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-building-house"></i></span>
+                                <select class="form-select" id="pageTypeSelect" asp-for="PageType" aria-label="Sayfa Türü" onchange="toggleSeoCard()" required>
+                                    <option selected="">Seçiniz</option>
+                                    <option value="1">İçerik Göster</option>
+                                    <option value="2">Adrese Yönlendir</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="PageType" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="SubMenuSelect">Bağlı Olduğu Menü</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-building-house"></i></span>
+                                <select class="form-select" id="exampleFormControlSelect1" asp-for="SubMenuSelect" asp-items="ViewBag.Menus">
+                                    <option value="" selected>Seçiniz</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3" id="menuAdresRow" style="display: none;">
+                        <label class="col-sm-2 col-form-label" asp-for="MenuAdres">Yönlendirme Adresi <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                                <input type="text" class="form-control" asp-for="MenuAdres" id="menuAdresInput" placeholder="http://example.com">
+                            </div>
+                            <span asp-validation-for="MenuAdres" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="Name">Menü Adı <span style="color:red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" asp-for="Name" required>
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="MenuInfo">Açıklama</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control textarea-editor" asp-for="MenuInfo" id="MenuInfo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Anahtar Bilgiler</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <div class="form-check form-switch mb-2">
+                                    <label class="form-check-label" asp-for="MenuStatus">Durumu</label>
+                                    <input class="form-check-input" asp-for="MenuStatus" type="checkbox" checked />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <div class="form-check form-switch mb-2">
+                                    <label class="form-check-label" asp-for="MenuHide">Görünümü</label>
+                                    <input class="form-check-input" asp-for="MenuHide" type="checkbox" checked />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <div class="form-check form-switch mb-2">
+                                    <label class="form-check-label" asp-for="MenuTarget">Yeni Sekmede Aç</label>
+                                    <input class="form-check-input" asp-for="MenuTarget" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Seo Bilgileri</h5>
+                </div>
+
+
+
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <div class="seo-preview">
+                                <h5 class="seo-url"></h5>
+                                <p class="seo-title" id="seoTitlePreview"></p>
+                                <p class="seo-description" id="seoDescriptionPreview"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="SeoTitle">Başlık <span style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" asp-for="SeoTitle" id="SeoTitle" oninput="updateSeoPreview()">
+                            </div>
+                            <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="MetaDescription">Meta Açıklama</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control" id="MetaDescription" asp-for="MetaDescription" rows="3" oninput="updateSeoPreview()"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="MetaKeyword">Anahtar Kelimeler</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control" id="MetaKeyword" asp-for="MetaKeyword" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</form>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var selectedValue = document.getElementById("pageTypeSelect").value;
+        var menuAdresRow = document.getElementById("menuAdresRow");
+
+
+        if (selectedValue === "2") {
+            menuAdresRow.style.display = "flex";
+        } else {
+            menuAdresRow.style.display = "none";
+        }
+
+        document.getElementById("pageTypeSelect").addEventListener("change", function() {
+            var selectedValue = this.value;
+            if (selectedValue === "2") {
+                menuAdresRow.style.display = "flex";
+            } else {
+                menuAdresRow.style.display = "none";
+            }
+        });
+    });
+
+</script>
+
+
+
+<script>
+    function urlDostuYap(str) {
+        return str
+            .toLowerCase()
+            .trim()
+            .replace(/ğ/g, 'g')
+            .replace(/ü/g, 'u')
+            .replace(/ş/g, 's')
+            .replace(/ı/g, 'i')
+            .replace(/ö/g, 'o')
+            .replace(/ç/g, 'c')
+            .replace(/[^a-z0-9\s-]/g, '') // özel karakterleri sil
+            .replace(/\s+/g, '-') // boşlukları tireye çevir
+            .replace(/-+/g, '-'); // birden fazla tırayı teke indir
+    }
+
+    function updateSeoPreview() {
+        const seoTitle = document.getElementById('SeoTitle').value || '';
+        const metaDescription = document.getElementById('MetaDescription').value || '';
+
+        // SEO dostu URL parçasını oluştur
+        const slug = urlDostuYap(seoTitle);
+
+        // URL preview'i güncelle
+        const host = window.location.host;
+        document.querySelector('.seo-url').textContent = `${host}/icerik/${slug}`;
+
+        // Diğer preview alanları
+        document.getElementById('seoTitlePreview').textContent = seoTitle;
+        document.getElementById('seoDescriptionPreview').textContent = metaDescription;
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        updateSeoPreview();
+    });
+</script>

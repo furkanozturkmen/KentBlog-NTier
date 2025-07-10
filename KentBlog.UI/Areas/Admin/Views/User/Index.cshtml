@@ -1,0 +1,93 @@
+﻿@model List<KentBlog.UI.ViewModels.UserListViewModel>
+
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<partial name="_ToastPartial" />
+
+
+
+<div class="card mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header">Kullanıcı Yönetimi</h5>
+        <div>
+
+            <a class="btn btn-sm btn-success" href="/admin/user/create"><i class="bx bx-plus me-1"></i>Yeni Kullanıcı Ekle</a>
+        </div>
+
+    </div>
+
+    <div class="table-responsive text-nowrap">
+
+        <table class="table table-hover text-center" id="userTable">
+            <thead>
+                <tr>
+                    <th class="text-start">Adı Soyadı</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr data-id="@item.Id" class="user-item">
+
+                        <td class="text-start">
+                            <span>@item.FullName</span>
+                        </td>
+
+                        <td>
+                            <span>@item.UserName</span>
+                        </td>
+
+                        <td>
+                            <span>@item.Email</span>
+                        </td>
+
+                        <td>
+                            <span>@item.Role</span>
+                        </td>
+
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="/Admin/User/Edit/@item.Id">
+                                <i class="bx bx-edit-alt me-1"></i> Düzenle
+                            </a>
+
+                            <a class="btn btn-sm btn-danger" href="/Admin/User/Delete/@item.Id" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');" title="Sil">
+                                <i class="bx bx-trash"></i> Sil
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <caption><br></caption>
+        </table>
+
+
+    </div>
+</div>
+
+
+<script>
+
+     $(document).ready(function () {
+        $(".change-status").click(function () {
+            var menuId = $(this).data("id");
+
+            $.post("/Admin/User/ChangeStatus", { id: menuId }, function (response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert("Bir hata oluştu!");
+                }
+            });
+        });
+    });
+
+</script>

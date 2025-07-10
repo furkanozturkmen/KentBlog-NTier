@@ -1,0 +1,25 @@
+﻿@using KentBlog.UI.Utilities
+@model KentBlog.UI.ViewModels.AdminCategoryViewModel
+
+<div class="col-lg-4 mt-5" style="position: relative; overflow: visible; box-sizing: border-box;">
+
+    @if (Model.AdminSettings.OtherCategory)
+    {
+        <div class="widget widget_links">
+            <h4 class="mb-2 ls-1 fw-bold">Diğer Kategoriler</h4>
+            <div class="line line-xs line-sports"></div>
+            <ul>
+                @foreach (var item in Model.Categories)
+                {
+                    <li class="d-flex align-items-center">
+                        <a href="@Url.Action("Index", "Kategori", new { id = item.CategoryID, seo = Helpers.UrlDostuYap(item.CategoryName) })" class="flex-fill">@item.CategoryName</a>
+                        <span class="badge text-light bg-sports">@item.BlogCount</span>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    }
+
+
+</div>

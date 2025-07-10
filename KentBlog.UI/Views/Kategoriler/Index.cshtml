@@ -1,0 +1,41 @@
+﻿@using KentBlog.UI.Utilities
+@model KentBlog.UI.ViewModels.CategoryMenuViewModel
+
+@{
+	ViewBag.Title = Html.Raw(Model.Menu.SeoTitle);
+	ViewBag.Description = Html.Raw(Model.Menu.MetaDescription);
+	ViewBag.Keywords = Html.Raw(Model.Menu.MetaKeyword);
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+<div id="portfolio" class="portfolio row grid-container gutter-30 has-init-isotope" data-layout="fitRows">
+
+		@foreach (var item in Model.Category!)
+		{
+			<article class="portfolio-item col-md-4 col-sm-6 col-12">
+				<div class="grid-inner">
+					<a href="@Url.Action("Index", "Kategori", new { id = item.CategoryID, seo = Helpers.UrlDostuYap(item.CategoryName) })">
+					<div class="portfolio-image">
+						
+							<img src="@Url.Content(item.CategoryImage)" alt="@item.CategoryName">
+						
+						<div class="bg-overlay">
+							<div class="bg-overlay-content dark animated fadeOut" data-hover-animate="fadeIn" data-bs-theme="dark" style="animation-duration: 600ms;"></div>
+							<div class="bg-overlay-bg dark animated fadeOut" data-hover-animate="fadeIn" data-bs-theme="dark" style="animation-duration: 600ms;"></div>
+						</div>
+					</div>
+					</a>
+					<div class="portfolio-desc">
+						<h3 class="text-center"><a href="@Url.Action("Index", "Kategori", new { id = item.CategoryID, seo = Helpers.UrlDostuYap(item.CategoryName) })">@item.CategoryName</a></h3>
+					</div>
+				</div>
+			</article>
+		}
+	</div>
+
+</div>
+
+							 

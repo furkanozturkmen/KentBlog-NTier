@@ -1,0 +1,43 @@
+﻿
+
+
+
+<header id="header" class="header-size-sm" data-sticky-shrink="false">
+
+	<partial name="_MainTopHeaderPartial" />
+
+
+
+ <div id="header-wrap" class="border-top border-f5">
+		<div class="container">
+			<div class="header-row justify-content-center flex-row-reverse flex-lg-row">
+
+				<div class="header-misc">
+
+					<div id="top-search" class="header-misc-icon">
+						<a href="#" id="top-search-trigger"><i class="uil uil-search"></i><i class="bi-x-lg"></i></a>
+					</div>
+
+				</div>
+
+				<div class="primary-menu-trigger">
+					<button class="cnvs-hamburger" type="button" title="Open Mobile Menu">
+						<span class="cnvs-hamburger-box"><span class="cnvs-hamburger-inner"></span></span>
+					</button>
+				</div>
+
+				<nav class="primary-menu with-arrows">
+
+					@await Component.InvokeAsync("MainNav")
+
+				</nav><!-- #primary-menu end -->
+
+			<form class="top-search-form" action="search.html" method="get">
+					<input type="text" name="q" class="form-control" value="" placeholder="Type &amp; Hit Enter.." autocomplete="off">
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<div class="header-wrap-clone"></div>
+</header><!-- #header end -->

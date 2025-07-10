@@ -1,0 +1,259 @@
+﻿@model KentBlog.Entity.Concrete.Category
+
+@{
+    ViewData["Title"] = "Kategori Düzenle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="CategoryID" />
+    <input type="hidden" asp-for="Order" />
+
+    <div class="row mt-4">
+        <div class="col-8">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Kategori Düzenle</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Resim <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-10">
+                                <div class="logo-preview">
+                                    @if (Model != null && !string.IsNullOrEmpty(Model.CategoryImage))
+                                    {
+                                        <img src="@Url.Content(Model.CategoryImage)" alt="Logo" id="LogoPreview" class="mb-3" style="max-width: 200px; max-height: 100px;">
+                                    }
+                                </div>
+                            </div>
+
+                            <input class="form-control" type="file" asp-for="CategoryFile">
+                            <span asp-validation-for="CategoryFile" class="text-danger"></span>
+
+
+                            <div style="display: flex; justify-content:space-between;">
+                                <small class="text-muted">Logo Boyutu 290x65 ölçülerinde olmalıdır.</small>
+                                <small class="text-muted">Desteklenen dosya türleri: .jpg .jpeg .png .gif</small>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="CategoryName">Kategori Adı <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" asp-for="CategoryName" required>
+                            </div>
+                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="CategoryDescription">Açıklama</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control textarea-editor" asp-for="CategoryDescription" id="EditorInfo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Anahtar Bilgiler</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <div class="form-check form-switch mb-2">
+                                    <label class="form-check-label" asp-for="CategoryStatus">Durumu</label>
+                                    <input class="form-check-input" asp-for="CategoryStatus" type="checkbox" checked />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <div class="form-check form-switch mb-2">
+                                    <label class="form-check-label" asp-for="MainPageStatus">Anasayfa Gösterimi</label>
+                                    <input class="form-check-input" asp-for="MainPageStatus" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Seo Bilgileri</h5>
+                </div>
+
+
+
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <div class="seo-preview">
+                                <h5 class="seo-url"></h5>
+                                <p class="seo-title" id="seoTitlePreview"></p>
+                                <p class="seo-description" id="seoDescriptionPreview"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="SeoTitle">Başlık <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" asp-for="SeoTitle" id="SeoTitle" oninput="updateSeoPreview()">
+                            </div>
+                            <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="MetaDescription">Meta Açıklama</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control" id="MetaDescription" asp-for="MetaDescription" rows="3" oninput="updateSeoPreview()"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="MetaKeyword">Anahtar Kelimeler</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control" id="MetaKeyword" asp-for="MetaKeyword" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</form>
+
+
+
+
+
+<script>
+    document.getElementById('CategoryFile').addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var imgElement = document.getElementById('LogoPreview');
+
+                // Eğer önceden bir logo varsa, sadece src'yi değiştir
+                if (imgElement) {
+                    imgElement.src = event.target.result;
+                } else {
+                    // Eğer daha önce bir logo yoksa yeni bir img elementi oluştur
+                    imgElement = document.createElement('img');
+                    imgElement.id = "LogoPreview";
+                    imgElement.src = event.target.result;
+                    imgElement.style.maxWidth = '200px';
+                    imgElement.style.maxHeight = '100px';
+                    imgElement.classList.add('mb-3');
+
+                    document.querySelector('.logo-preview').appendChild(imgElement);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+
+<script>
+    function urlDostuYap(str) {
+        return str
+            .toLowerCase()
+            .trim()
+            .replace(/ğ/g, 'g')
+            .replace(/ü/g, 'u')
+            .replace(/ş/g, 's')
+            .replace(/ı/g, 'i')
+            .replace(/ö/g, 'o')
+            .replace(/ç/g, 'c')
+            .replace(/[^a-z0-9\s-]/g, '') // özel karakterleri sil
+            .replace(/\s+/g, '-') // boşlukları tireye çevir
+            .replace(/-+/g, '-'); // birden fazla tırayı teke indir
+    }
+
+    function updateSeoPreview() {
+        const seoTitle = document.getElementById('SeoTitle').value || '';
+        const metaDescription = document.getElementById('MetaDescription').value || '';
+
+        // SEO dostu URL parçasını oluştur
+        const slug = urlDostuYap(seoTitle);
+
+        // URL preview'i güncelle
+        const host = window.location.host;
+        document.querySelector('.seo-url').textContent = `${host}/kategori/${slug}`;
+
+        // Diğer preview alanları
+        document.getElementById('seoTitlePreview').textContent = seoTitle;
+        document.getElementById('seoDescriptionPreview').textContent = metaDescription;
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        updateSeoPreview();
+    });
+</script>

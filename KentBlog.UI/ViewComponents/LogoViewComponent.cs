@@ -1,0 +1,22 @@
+﻿using KentBlog.Business.Abstract;
+using KentBlog.Business.Concrete;
+using KentBlog.Data.Concrete.EfCore;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KentBlog.UI.ViewComponents
+{
+    public class LogoViewComponent : ViewComponent
+    {
+        private readonly IGeneralSettingsService _generalSettingsService;
+
+        public LogoViewComponent(IGeneralSettingsService generalSettingsService)
+        {
+            _generalSettingsService = generalSettingsService;
+        }
+        public IViewComponentResult Invoke()
+        {
+            var values = _generalSettingsService.GetListAll().FirstOrDefault();
+            return View(values);
+        }
+    }
+}

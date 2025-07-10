@@ -1,0 +1,14 @@
+﻿@model KentBlog.Entity.Concrete.ThemeSettings
+
+@* <div class="header-row justify-content-between flex-row-reverse"> *@
+
+<div class="header-row justify-content-between @(int.TryParse(Model.TopBarDesign, out int TopBarDesign) && TopBarDesign == 1 ? "flex-row-reverse" : "")">
+
+	@await Component.InvokeAsync("Logo")
+
+	<div class="w-100 d-block d-md-none"></div>
+
+	@await Component.InvokeAsync("HeaderTop")
+
+
+</div>

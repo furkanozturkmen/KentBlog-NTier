@@ -1,0 +1,74 @@
+﻿@using KentBlog.UI.Utilities
+@using System.Text.RegularExpressions
+@model KentBlog.UI.ViewModels.BlogMenuViewModel
+
+
+@{
+	ViewBag.Title = Html.Raw(Model.Menu.SeoTitle);
+	ViewBag.Description = Html.Raw(Model.Menu.MetaDescription);
+	ViewBag.Keywords = Html.Raw(Model.Menu.MetaKeyword);
+
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+<div class="row col-mb-50 mb-0">
+
+
+		@foreach (var item in Model.blogs)
+		{
+			@if (item.BlogStatus && item.BlogHide)
+			{
+				<div class="col-md-3 mt-4">
+					<!-- Post Article -->
+					<div class="posts-md">
+						<div class="entry">
+							<div class="entry-image">
+								<a href="@Url.Action("Index", "Haber", new { id = item.Id, seo = Helpers.UrlDostuYap(item.SeoTitle) })"><img src="@Url.Content(item.Image)" alt="@item.SeoTitle"></a>
+								<div class="entry-categories"><a href="@Url.Action("Index", "Kategori", new { id = item.Category.CategoryID, seo = Helpers.UrlDostuYap(item.Category.CategoryName) })" class="bg-food">@item.Category.CategoryName</a></div>
+							</div>
+							<div class="entry-title title-sm text-transform-none">
+								<h3 class="mb-2"><a href="@Url.Action("Index", "Haber", new { id = item.Id, seo = Helpers.UrlDostuYap(item.SeoTitle) })">@item.Title</a></h3>
+							</div>
+							<div class="entry-meta">
+								<ul>
+									<li><i class="bi-clock"></i> @item.Date.Value.ToShortDateString()</li>
+								</ul>
+							</div>
+
+
+							@if (Model.AdminSettings.SpotText)
+							{
+
+								var content = item.Content ?? "";
+
+								// HTML etiketlerini kaldır (eğer sadece düz cümle istiyorsan)
+								var plainText = Regex.Replace(content, "<.*?>", " ");
+
+								// İlk cümleyi ayır (".", "!" veya "?" işaretlerine göre)
+								var sentenceEnd = new[] { '.', '!', '?' };
+								int firstEndIndex = plainText.IndexOfAny(sentenceEnd);
+
+								var firstSentence = firstEndIndex > 0
+								? plainText.Substring(0, firstEndIndex + 1).Trim()
+								: plainText.Trim(); // Eğer noktalama yoksa tamamını al
+
+
+								<div class="entry-content mt-3">
+									<p class="mb-0">
+										@Html.Raw(firstSentence)
+									</p>
+								</div>
+							}
+
+
+						</div>
+					</div>
+				</div>
+			}
+
+		}
+	</div>
+</div>

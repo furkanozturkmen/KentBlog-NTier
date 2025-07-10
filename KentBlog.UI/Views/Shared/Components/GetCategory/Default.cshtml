@@ -1,0 +1,228 @@
+﻿@using KentBlog.UI.Utilities
+@model KentBlog.UI.ViewModels.BlogCategoryViewModel
+
+@if (Model.ThemeSettings!.CategoryType == "1")
+{
+    @foreach (var category in Model.Categories.OrderBy(c => c.Order))
+    {
+        if (category.CategoryStatus)
+        {
+
+            if (category.MainPageStatus)
+            {
+
+
+                <div class="fancy-title col-10 mx-auto title-border">
+                    <h3>@category.CategoryName</h3>
+                </div>
+
+                <div class="row col-mb-50 col-10 mx-auto mb-0">
+                    <div class="col-lg-8">
+                        <div class="posts-md">
+
+                            @if (category.Blogs != null && category.Blogs.Any(b => b.CategoryStatus))
+                            {
+                                foreach (var blog in category.Blogs.Where(b => b.CategoryStatus))
+                                {
+                                    @if (blog.BlogStatus && blog.BlogHide)
+                                    {
+                                        <div class="entry">
+                                            <div class="entry-image">
+                                                <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">
+                                                    <img src="@Url.Content(blog.Image)" alt="Image">
+                                                </a>
+                                            </div>
+                                            <div class="entry-title title-sm text-start">
+                                                <h3>
+                                                    <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">
+                                                        @blog.Title
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="entry-meta">
+                                                <ul>
+                                                    <li><i class="uil uil-schedule"></i> @blog.Date?.ToShortDateString()</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    }
+
+
+                                }
+                            }
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="posts-sm row col-mb-30">
+                            @if (category.Blogs != null && category.Blogs.Any(b => !b.CategoryStatus))
+                            {
+                                @foreach (var blog in category.Blogs.Where(b => !b.CategoryStatus))
+                                {
+                                    @if (blog.BlogStatus && blog.BlogHide)
+                                    {
+                                        <div class="entry col-12">
+                                            <div class="grid-inner row g-0">
+                                                <div class="col-auto">
+                                                    <div class="entry-image">
+                                                        <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })"><img src="@Url.Content(blog.Image)" alt="Image"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="col ps-3">
+                                                    <div class="entry-title text-start">
+                                                        <h4><a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">@blog.Title</a></h4>
+                                                    </div>
+                                                    <div class="entry-meta">
+                                                        <ul>
+                                                            <li><i class="uil uil-schedule"></i> @blog.Date?.ToShortDateString() </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                }
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+
+        }
+    }
+
+    <a href="/kategoriler" class="button button-xlarge text-center">Tüm Kategoriler <i class="bi-arrow-right-circle-fill"></i></a>
+}
+
+
+
+@if (Model.ThemeSettings!.CategoryType == "2")
+{
+    <nav class="navbar navbar-expand-lg navbar-light p-0">
+        <h4 class="mb-0 pe-2 ls-1 text-uppercase fw-bold">Kategoriler</h4>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi-list"></i>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarToggler1">
+            <div></div>
+            <ul class="nav nav-sm navbar-nav me-md-auto me-lg-0 mt-2 mt-lg-0 align-self-end" role="tablist">
+                @foreach (var item in Model.Categories)
+                {
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link bg-color-travel container-modules-loaded @(item == Model.Categories.First() ? "active" : "")"
+                           id="nav-@item.CategoryID-tab"
+                           data-bs-toggle="tab"
+                           href="#nav-@item.CategoryID"
+                           role="tab"
+                           aria-controls="nav-@item.CategoryID"
+                           aria-selected="@(item == Model.Categories.First() ? "true" : "false")">
+                            @item.CategoryName
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <div class="line line-xs line-dark"></div>
+
+    <!-- TEK TAB-CONTENT -->
+    <div class="tab-content" id="nav-tabContent">
+        @foreach (var category in Model.Categories)
+        {
+            <div class="tab-pane fade @(category == Model.Categories.First() ? "show active" : "")"
+                 id="nav-@category.CategoryID"
+                 role="tabpanel"
+                 aria-labelledby="nav-@category.CategoryID-tab">
+
+                <div class="row col-mb-30 mb-0">
+                    <div class="col-lg-8">
+                        <div class="posts-md">
+                            @if (category.Blogs != null && category.Blogs.Any(b => b.CategoryStatus))
+                            {
+                                foreach (var blog in category.Blogs.Where(b => b.CategoryStatus))
+                                {
+                                    if (blog.BlogStatus && blog.BlogHide)
+                                    {
+                                        <div class="entry">
+                                            <div class="entry-image">
+                                                <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">
+                                                    <img src="@Url.Content(blog.Image)" alt="Image">
+                                                </a>
+                                            </div>
+                                            <div class="entry-title title-sm text-start">
+                                                <h3>
+                                                    <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">
+                                                        @blog.Title
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="entry-meta">
+                                                <ul>
+                                                    <li><i class="uil uil-schedule"></i> @blog.Date?.ToShortDateString()</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="posts-sm row col-mb-30">
+                            @if (category.Blogs != null && category.Blogs.Any(b => !b.CategoryStatus))
+                            {
+                                foreach (var blog in category.Blogs.Where(b => !b.CategoryStatus))
+                                {
+                                    if (blog.BlogStatus && blog.BlogHide)
+                                    {
+                                        <div class="entry col-12">
+                                            <div class="grid-inner row g-0">
+                                                <div class="col-auto">
+                                                    <div class="entry-image">
+                                                        <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">
+                                                            <img src="@Url.Content(blog.Image)" alt="Image">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col ps-3">
+                                                    <div class="entry-title text-start">
+                                                        <h4>
+                                                            <a href="@Url.Action("Index", "Haber", new { id = blog.Id, seo = Helpers.UrlDostuYap(blog.SeoTitle) })">
+                                                                @blog.Title
+                                                            </a>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="entry-meta">
+                                                        <ul>
+                                                            <li><i class="uil uil-schedule"></i> @blog.Date?.ToShortDateString()</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+
+
+  
+}

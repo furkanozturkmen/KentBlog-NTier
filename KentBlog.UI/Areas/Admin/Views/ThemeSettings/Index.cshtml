@@ -1,0 +1,206 @@
+﻿@model KentBlog.Entity.Concrete.ThemeSettings
+
+@{
+    ViewData["Title"] = "Tema Ayarları";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+
+    <div id="successToast" class="bs-toast toast toast-placement-ex m-2 fade bg-success top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"> <i class="icon-base bx bx-bell me-2"></i> @TempData["SuccessMessage"]</div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorToast" class="bs-toast toast toast-placement-ex m-2 fade bg-danger top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"> <i class="icon-base bx bx-bell me-2"></i> @TempData["ErrorMessage"]</div>
+    </div>
+}
+
+
+<form asp-action="Index" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="card mb-4 mt-4">
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Tema Ayarları</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="ThemeValue">Tema Seç</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <span class="input-group-text"><i class='bx bxs-color-fill'></i></span>
+                        <select class="form-select" id="exampleFormControlSelect1" asp-for="ThemeValue">
+                            <option value="1" selected>Tema 1</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="TopBarDesign">Üst Bar Görüntüsü</label>
+                <div class="col-sm-5">
+                    <div class="input-group input-group-merge">
+                        <select class="form-select" id="exampleFormControlSelect1" asp-for="TopBarDesign">
+                            <option value="1">Solda İletişim - Sağda Sosyal Medya</option>
+                            <option value="2">Sağda İletişim - Solda Sosyal Medya</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="PrivateCSS">Css Özelleştirme</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" asp-for="PrivateCSS"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="ThemeColor">Tema Rengi</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <input class="form-control" type="color" value="@Model.ThemeColor" asp-for="ThemeColor">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="TopImage">Sayfa Üst Kısım Arka Plan Resim Adresi</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <input class="form-control" type="text" asp-for="TopImage">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="FooterImage">Footer Arka Plan Resim Adresi</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <input class="form-control" type="text" asp-for="FooterImage">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row justify-content-start">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <div class="card mb-4 mt-4">
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Sütun Yönetimi</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="BlogColumn">Haber Sütun Sayısı</label>
+                <div class="col-sm-5">
+                    <div class="input-group input-group-merge">
+
+                        <select class="form-select" id="exampleFormControlSelect1" asp-for="BlogColumn">
+                            <option value="4" selected>4</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-start mt-4">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+    <div class="card mb-4 mt-4">
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Tip Yönetimi</h5>
+            <small class="text-muted">Görünümler Sadece Anasayfayı Etkiler.</small>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+
+                <div class="col-md-4">
+                <label class="col-form-label" asp-for="BlogType">Haber Görünümü</label>
+
+                    <div class="input-group input-group-merge">
+
+                        <select class="form-select" id="exampleFormControlSelect1" asp-for="BlogType">
+                            <option value="1">Tip 1</option>
+                            <option value="2">Tip 2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                 <label class="col-form-label" asp-for="CategoryType">Kategori Görünümü</label>
+
+                    <div class="input-group input-group-merge">
+
+                        <select class="form-select" id="exampleFormControlSelect1" asp-for="CategoryType">
+                            <option value="1">Tip 1</option>
+                            <option value="2">Tip 2</option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="row justify-content-end mt-4">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+</form>

@@ -1,0 +1,27 @@
+﻿@model KentBlog.UI.ViewModels.AdminGeneralViewModel
+
+@foreach (var item in Model.GeneralSettings)
+{
+    @if (!string.IsNullOrEmpty(item.Phone))
+    {
+
+        @if (Model.AdminSettings.PhoneTop)
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="tel:@item.Phone">  <i class="fa fa-phone"></i> @item.Phone</a>
+            </li>
+        }
+
+    }
+
+    @if (!string.IsNullOrEmpty(item.Mail))
+    {
+        @if (Model.AdminSettings.MailTop)
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="mailto:@item.Mail"> <i class="fa fa-envelope"></i> @item.Mail</a>
+            </li>
+        }
+
+    }
+}

@@ -1,0 +1,22 @@
+﻿@model List<KentBlog.Entity.Concrete.Counter>
+
+<div class="row text-center justify-content-center col-mb-50 mx-lg-auto" style="max-width: 1100px;">
+
+    @foreach (var item in Model)
+    {
+        if (item.Status)
+        {
+            <div class="col-6 col-md-4 col-lg-1-5 mb-4">
+                <div class="counter text-contrast-1000 fs-1" style="line-height: 1.1;">
+                    <span data-from="0" data-to="@item.Number" data-refresh-interval="50" data-speed="1000">@item.Number</span>
+                    <small class="color ms-1 fs-3">@item.Symbol</small>
+                </div>
+                <h3>
+                    <span class="subtitle ls-0 h5 fw-medium text-contrast-1000 op-05">@item.Title</span>
+                </h3>
+            </div>
+        }
+    }
+
+
+</div>

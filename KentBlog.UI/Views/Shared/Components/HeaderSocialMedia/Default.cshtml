@@ -1,0 +1,55 @@
+﻿@model List<KentBlog.Entity.Concrete.GeneralSettings>
+
+
+@foreach (var item in Model)
+{
+    @if (!string.IsNullOrEmpty(item.Facebook))
+    {
+        <a href="@item.Facebook" class="social-icon rounded-circle bg-dark h-bg-facebook" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-facebook"></i>
+        </a>
+    }
+    @if (!string.IsNullOrEmpty(item.Twitter))
+    {
+        <a href="@item.Twitter" class="social-icon rounded-circle bg-dark h-bg-x-twitter" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-brands fa-twitter"></i>
+        </a>
+    }
+    @if (!string.IsNullOrEmpty(item.Instagram))
+    {
+        <a href="@item.Instagram" class="social-icon rounded-circle bg-dark h-bg-instagram" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+    }
+    @if (!string.IsNullOrEmpty(item.WhatsApp))
+    {
+        <a href="https://wa.me/@item.WhatsApp" class="social-icon rounded-circle bg-dark h-bg-whatsapp" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    }
+    @if (!string.IsNullOrEmpty(item.YouTube))
+    {
+        <a href="@item.YouTube" class="social-icon rounded-circle bg-dark h-bg-youtube" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+    }
+    @if (!string.IsNullOrEmpty(item.LinkedIn))
+    {
+        <a href="@item.LinkedIn" class="social-icon rounded-circle bg-dark h-bg-linkedin" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-linkedin"></i>
+            <i class="fa-brands fa-linkedin"></i>
+        </a>
+    }
+    @if (!string.IsNullOrEmpty(item.Pinterest))
+    {
+        <a href="@item.Pinterest" class="social-icon rounded-circle bg-dark h-bg-pinterest" style="--cnvs-socialicon-size:1.75rem;">
+            <i class="fa-brands fa-pinterest"></i>
+            <i class="fa-brands fa-pinterest"></i>
+        </a>
+    }
+}

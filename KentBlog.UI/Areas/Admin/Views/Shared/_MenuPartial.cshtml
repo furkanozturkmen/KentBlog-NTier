@@ -1,0 +1,151 @@
+﻿@using KentBlog.Entity.Concrete
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="/admin" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                <img src="~/admin/assets/img/kentmedia-seo-logo.png" alt="Kentmedia Logo" height="40" />
+            </span>
+        </a>
+
+        @*         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a> *@
+    </div>
+
+    <div class="menu-inner-shadow" style="display: none;"></div>
+
+    <ul class="menu-inner py-1 ps ps--active-y">
+        <!-- Dashboard -->
+        <li class="menu-item @((Context.Request.Path == "/admin" || Context.Request.Path == "/admin/index") ? "active" : "")">
+            <a href="/admin" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div>Anasayfa</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/generalsettings" ? "active" : "")">
+            <a href="/admin/generalsettings" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cog"></i>
+                <div>Genel Bilgiler</div>
+            </a>
+        </li>
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Yönetici İşlemleri</span>
+        </li>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="menu-item @(Context.Request.Path == "/admin/user" ? "active" : "")">
+                <a href="/admin/user" class="menu-link">
+                    <i class="menu-icon icon-base bx bx-user"></i>
+                    <div>Kullanıcılar</div>
+                </a>
+            </li>
+        }
+
+        <li class="menu-item @(Context.Request.Path == "/admin/adminsettings" ? "active" : "")">
+            <a href="/admin/adminsettings" class="menu-link">
+                <i class="menu-icon icon-base bx bx-check-shield"></i>
+                <div>Yönetici Bilgileri</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/themesettings" ? "active" : "")">
+            <a href="/admin/themesettings" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-palette"></i>
+                <div>Tema Ayarları</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/openingpage" ? "active" : "")">
+            <a href="/admin/mainpage" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div>Açılış Sayfası</div>
+            </a>
+        </li>
+
+
+
+        <li class="menu-item @(Context.Request.Path == "/admin/visitor" ? "active" : "")">
+            <a href="/admin/visitor" class="menu-link">
+                <i class="menu-icon tf-icons bx bxl-periscope"></i>
+                <div>Ziyaretçi</div>
+            </a>
+        </li>
+
+        <!-- Components -->
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">İçerik İşlemleri</span></li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/menu" ? "active" : "")">
+            <a href="/admin/menu" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-list-check"></i>
+                <div>Menü</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/service" ? "active" : "")">
+            <a href="/admin/service" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-cube-alt"></i>
+                <div>Hizmet</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/aboutus" ? "active" : "")">
+            <a href="/admin/aboutus" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-buildings"></i>
+                <div>Hakkımızda</div>
+            </a>
+        </li>
+
+
+        <li class="menu-item @(Context.Request.Path == "/admin/category" ? "active" : "")">
+            <a href="/admin/category" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category"></i>
+                <div>Kategori</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/blog" ? "active" : "")">
+            <a href="/admin/blog" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-news"></i>
+                <div>Haber</div>
+            </a>
+        </li>
+
+        <li class="menu-item @(Context.Request.Path == "/admin/counter" ? "active" : "")">
+            <a href="/admin/counter" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-pie-chart-alt"></i>
+                <div>Sayaç</div>
+            </a>
+        </li>
+
+
+        <li class="menu-item @(Context.Request.Path == "/admin/testimonial" ? "active" : "")">
+            <a href="/admin/testimonial" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-conversation"></i>
+                <div>Yorum</div>
+            </a>
+        </li>
+
+
+
+        <li class="menu-item @(Context.Request.Path == "/admin/keywords" ? "active" : "")">
+            <a href="/admin/keywords" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bookmark"></i>
+                <div>Anahtar Kelime</div>
+            </a>
+        </li>
+
+
+
+    </ul>
+
+    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div>
+    <div class="ps__rail-y" style="top: 0px; height: 397px; right: 4px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 176px;"></div></div>
+
+</aside>

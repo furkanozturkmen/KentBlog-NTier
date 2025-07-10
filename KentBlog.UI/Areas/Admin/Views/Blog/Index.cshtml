@@ -1,0 +1,323 @@
+﻿@model List<KentBlog.Entity.Concrete.Blog>
+
+@{
+    ViewData["Title"] = "Haber Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<partial name="_ToastPartial" />
+
+
+<div class="card mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header">Haber Yönetimi</h5>
+        <div>
+            <button class="btn btn-sm btn-danger d-none me-2" id="deleteSelectedPopover"> <i class="bx bx-trash me-1"></i> Seçilenleri Sil </button>
+
+
+            <a class="btn btn-sm btn-success" href="/admin/blog/create"><i class="bx bx-plus me-1"></i>Yeni Haber Ekle</a>
+        </div>
+
+    </div>
+
+    <div class="table-responsive text-nowrap">
+
+        <table class="table table-hover text-center" id="menuTable">
+            <thead>
+                <tr>
+                    <td><input class="form-check-input" type="checkbox" id="selectAll"></td>
+                    <th class="text-center">Resim</th>
+                    <th class="text-start">Haber Adı</th>
+                    <th>Görünümü</th>
+                    <th>Durumu</th>
+                    <th>Vitrin Gösterim</th>
+                    <th>Bağlı Olduğu Kategori</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+
+            @{
+                var menus = ViewBag.Menus as IEnumerable<SelectListItem>;
+            }
+
+            <tbody class="table-border-bottom-0" id="sortable">
+                @foreach (var item in Model.OrderBy(m => m.Order))
+                {
+                    <tr data-id="@item.Id" class="menu-item">
+                        <td><input class="form-check-input itemCheckbox" type="checkbox" value="@item.Id"></td>
+
+                        <td class="text-center" style="width: 15%;">
+                            <img src="@Url.Content(item.Image)" style="width: 100%; height: 80px; object-fit: contain;" />
+                        </td>
+
+                        <td class="text-start" style="white-space: normal; word-break: break-word;">  <span>@item.Title</span></td>
+
+                        <td><span class="badge @(item.BlogHide ? "bg-label-success" : "bg-label-danger") me-1"> @(item.BlogHide ? "Aktif" : "Pasif") </span></td>
+                        <td><span class="badge @(item.BlogStatus ? "bg-label-success" : "bg-label-danger") me-1"> @(item.BlogStatus ? "Aktif" : "Pasif") </span></td>
+                        <td><span class="badge @(item.MainPageStatus ? "bg-label-success" : "bg-label-danger") me-1"> @(item.MainPageStatus ? "Aktif" : "Pasif") </span></td>
+
+                        <td class="text-center"> <span>@item.Category.CategoryName</span></td>
+
+
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="/admin/blog/edit/@item.Id"><i class="bx bx-edit-alt me-1"></i> Düzenle</a>
+
+                            <a class="btn btn-sm btn-secondary change-hide" data-id="@item.Id" title="Görünüm Değiştir">
+                                <i class="bx bx-refresh"></i>
+                            </a>
+
+                            <a class="btn btn-sm btn-danger change-status" data-id="@item.Id" title="Durum Değiştir">
+                                <i class="bx bx-refresh"></i>
+                            </a>
+
+                             <a class="btn btn-sm btn-warning change-mainpage" data-id="@item.Id" title="Anasayfa Vitrin Değiştir">
+                                <i class="bx bx-refresh"></i>
+                            </a>
+
+
+                            <a class="btn btn-sm btn-danger" href="/admin/blog/delete/@item.Id" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');"> <i class="bx bx-trash me-1"></i> Sil </a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <caption>Kayıt Sayısı: @ViewBag.blogcount</caption>
+        </table>
+
+
+
+
+
+
+    </div>
+</div>
+
+
+@Html.AntiForgeryToken()
+
+
+<script>
+
+    var token = $('input[name="__RequestVerificationToken"]').val();
+
+       $(document).ready(function () {
+        var deletePopover = new bootstrap.Popover(document.getElementById('deleteSelectedPopover'), {
+            trigger: 'manual',
+            html: true,
+            placement: 'bottom',
+            sanitize: false,
+            content: `<p>Silmek istediğinize emin misiniz?</p>
+                        <div class='d-flex justify-content-start'>
+                            <button type='button' class='btn btn-sm btn-outline-secondary me-2 close-popover'> <i class="bx bx-x me-1"></i>  Kapat</button>
+                            <button type='button' class='btn btn-sm btn-danger confirm-delete'> <i class="bx bx-trash me-1"></i> Sil</button>
+                        </div>`
+        });
+
+        function toggleDeleteButton() {
+            if ($(".itemCheckbox:checked").length > 0) {
+                $("#deleteSelectedPopover").removeClass("d-none");
+            } else {
+                $("#deleteSelectedPopover").addClass("d-none");
+            }
+        }
+
+
+        $(".itemCheckbox").change(function () {
+            if ($(this).is(":checked")) {
+                $(this).closest("tr").css("background-color", "#4359710f");
+            } else {
+                $(this).closest("tr").css("background-color", "");
+            }
+            toggleDeleteButton();
+        });
+
+        $("#selectAll").change(function () {
+            var isChecked = $(this).is(":checked");
+            $("tbody .itemCheckbox").prop("checked", isChecked).trigger("change");
+        });
+
+
+        $("#selectAll").click(function () {
+            $(".itemCheckbox").prop("checked", this.checked);
+            toggleDeleteButton();
+        });
+
+
+        $(".itemCheckbox").change(function () {
+            toggleDeleteButton();
+        });
+
+
+        $("#deleteSelectedPopover").click(function () {
+            deletePopover.toggle();
+        });
+
+
+        $(document).on("click", ".close-popover", function () {
+            deletePopover.hide();
+        });
+
+        $(document).on("click", ".confirm-delete", function () {
+            var selectedIds = [];
+            $(".itemCheckbox:checked").each(function () {
+                selectedIds.push($(this).val());
+            });
+
+            if (selectedIds.length === 0) {
+                return;
+            }
+
+            $.ajax({
+                url: "/Admin/Blog/DeleteSelectedBlog",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(selectedIds),
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert("Silme işlemi sırasında bir hata oluştu.");
+                    }
+                },
+                error: function () {
+                    alert("Sunucu hatası oluştu.");
+                }
+            });
+
+            deletePopover.hide();
+        });
+    });
+
+    $(document).ready(function () {
+        $(".change-status").click(function () {
+            var menuId = $(this).data("id");
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: "/Admin/Blog/ChangeStatus",
+                type: "POST",
+                data: { id: menuId },
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert("Bir hata oluştu!");
+                    }
+                },
+                error: function () {
+                    alert("İstek gönderilirken bir hata oluştu!");
+                }
+            });
+        });
+    });
+
+        $(document).ready(function () {
+        $(".change-hide").click(function () {
+            var menuId = $(this).data("id");
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: "/Admin/Blog/ChangeHide",
+                type: "POST",
+                data: { id: menuId },
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert("Bir hata oluştu!");
+                    }
+                },
+                error: function () {
+                    alert("İstek gönderilirken bir hata oluştu!");
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+            $(".change-mainpage").click(function () {
+                var menuId = $(this).data("id");
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: "/Admin/Blog/ChangeMainPageStatus",
+                    type: "POST",
+                    data: { id: menuId },
+                    headers: {
+                        "RequestVerificationToken": token
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert("Bir hata oluştu!");
+                        }
+                    },
+                    error: function () {
+                        alert("İstek gönderilirken bir hata oluştu!");
+                    }
+                });
+            });
+        });
+
+
+</script>
+
+
+<script>
+       document.addEventListener('DOMContentLoaded', function () {
+        var sortable = new Sortable(document.getElementById('sortable'), {
+            handle: 'tr',
+            onEnd: function (evt) {
+
+                updateMenuOrder();
+            }
+        });
+    });
+
+
+    function updateMenuOrder() {
+        var orderedIds = [];
+        var rows = document.querySelectorAll('#sortable tr');
+
+        rows.forEach(function (row) {
+            orderedIds.push(row.getAttribute('data-id'));
+        });
+
+        $.ajax({
+            url: '/Admin/Blog/UpdateMenuOrder',
+            type: 'POST',
+            data: { orderedIds: orderedIds },
+            success: function (response) {
+                showAjaxToast(response.message, response.success);
+            },
+            error: function () {
+                showAjaxToast("Sıralama güncellenirken bir hata oluştu.", false);
+            }
+        });
+    }
+
+</script>
+
+

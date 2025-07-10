@@ -1,0 +1,14 @@
+﻿@model List<KentBlog.Entity.Concrete.Keywords>
+
+
+<div class="tagcloud">
+    @foreach (var item in Model)
+    {
+        if (item.Status)
+        {
+            <a href="@item.KeywordLink">@item.KeywordName</a>
+        }
+
+    }
+
+</div>

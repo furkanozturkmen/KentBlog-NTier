@@ -1,0 +1,143 @@
+﻿@model KentBlog.UI.ViewModels.MainPageViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Html.Raw(Model.AdminSettings.Title);
+    ViewBag.Description = Html.Raw(Model.AdminSettings.MetaDescription);
+    ViewBag.Keywords = Html.Raw(Model.AdminSettings.MetaKeyword);
+}
+
+
+@foreach (var item in Model.OpeningPage.OrderBy(m => m.Order))
+{
+
+    if (item.SectionKey == "editor")
+    {
+        if (item.Status)
+        {
+            <section id="@($"section{item.ID}")" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="@($"editor{item.ID}")" class="container">
+                    @Html.Raw(item.Description)
+                </div>
+            </section>
+        }
+
+    }
+
+    if (item.SectionKey == "blog")
+    {
+        if (item.Status)
+        {
+
+            <section id="blog" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="blog" class="container">
+                    <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                    @await Component.InvokeAsync("GetBlog")
+                </div>
+            </section>
+        }
+    }
+
+    if (item.SectionKey == "category")
+    {
+        if (item.Status)
+        {
+
+            <section id="category" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="category" class="container">
+                    <div class="text-center">
+                        <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                        @await Component.InvokeAsync("GetCategory")
+                    </div>
+                </div>
+            </section>
+        }
+    }
+
+    if (item.SectionKey == "keywords")
+    {
+
+        if (item.Status)
+        {
+            <section id="keywords" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="keywords" class="container">
+                    <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                    @await Component.InvokeAsync("GetKeywords")
+                </div>
+            </section>
+
+        }
+
+    }
+
+    if (item.SectionKey == "aboutus")
+    {
+
+        if (item.Status)
+        {
+            <section id="aboutus" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="aboutus" class="container">
+                    <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                    @await Component.InvokeAsync("GetAboutus")
+                </div>
+            </section>
+
+        }
+
+    }
+
+
+    if (item.SectionKey == "counter")
+    {
+
+        if (item.Status)
+        {
+            <section id="counter" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="counter" class="container">
+                    <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                    @await Component.InvokeAsync("GetCounter")
+                </div>
+            </section>
+
+        }
+
+    }
+
+
+    if (item.SectionKey == "services")
+    {
+
+        if (item.Status)
+        {
+            <section id="services" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="services" class="container">
+                    <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                    @await Component.InvokeAsync("GetServices")
+                </div>
+            </section>
+
+        }
+
+    }
+
+
+    if (item.SectionKey == "testimonial")
+    {
+
+        if (item.Status)
+        {
+            <section id="testimonial" class="section m-0" style="background-color: @item.SectionColor">
+                <div id="testimonial" class="container">
+                    <h3 class="h1 fw-bold mb-3 text-center">@item.SectionTitle</h3>
+                    @await Component.InvokeAsync("GetTestimonial")
+                </div>
+            </section>
+
+        }
+
+    }
+
+}
+
+
+

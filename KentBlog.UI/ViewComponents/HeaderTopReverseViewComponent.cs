@@ -1,0 +1,22 @@
+﻿using KentBlog.Business.Abstract;
+using KentBlog.Business.Concrete;
+using KentBlog.Data.Concrete.EfCore;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KentBlog.UI.ViewComponents
+{
+    public class HeaderTopReverseViewComponent : ViewComponent
+    {
+        private readonly IThemeSettingsService _themeSettingsService;
+
+        public HeaderTopReverseViewComponent(IThemeSettingsService themeSettingsService)
+        {
+            _themeSettingsService = themeSettingsService;
+        }
+        public IViewComponentResult Invoke()
+        {
+            var values = _themeSettingsService.GetListAll().FirstOrDefault();
+            return View(values);
+        }
+    }
+}

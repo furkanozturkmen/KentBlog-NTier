@@ -1,0 +1,311 @@
+﻿@model KentBlog.Entity.Concrete.AdminSettings
+
+@{
+    ViewData["Title"] = "Yönetici Bilgileri";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+
+    <div id="successToast" class="bs-toast toast toast-placement-ex m-2 fade bg-success top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"> <i class="icon-base bx bx-bell me-2"></i> @TempData["SuccessMessage"]</div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorToast" class="bs-toast toast toast-placement-ex m-2 fade bg-danger top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"> <i class="icon-base bx bx-bell me-2"></i> @TempData["ErrorMessage"]</div>
+    </div>
+}
+
+
+
+<form asp-action="Index" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="card mb-4 mt-4">
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Anahtar Bilgiler</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="MailTop">E-Postayı Üst Bantta Göster</label>
+                        <input class="form-check-input" asp-for="MailTop" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="PhoneTop">Telefonu Üst Bantta Göster</label>
+                        <input class="form-check-input" asp-for="PhoneTop" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="CookieButton">Çerez Politikası</label>
+                        <input class="form-check-input" asp-for="CookieButton" type="checkbox" />
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row mb-3">
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="WhatsAppEffect">Özel WhatsApp Efekti</label>
+                        <input class="form-check-input" asp-for="WhatsAppEffect" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="PhoneEffect">Özel Telefon Efekti</label>
+                        <input class="form-check-input" asp-for="PhoneEffect" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="OtherCategory">Kategori Sayfasında Diğer Kategorileri Göster</label>
+                        <input class="form-check-input" asp-for="OtherCategory" type="checkbox" />
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="row mb-3">
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="SpotText">Spot Metnini Göster</label>
+                        <input class="form-check-input" asp-for="SpotText" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="CategoryFooter">Footerda Kategorileri Göster</label>
+                        <input class="form-check-input" asp-for="CategoryFooter" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-check form-switch mb-2">
+                        <label class="form-check-label" asp-for="BlogFooter">Footerda Haberleri Göster</label>
+                        <input class="form-check-input" asp-for="BlogFooter" type="checkbox" />
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="row justify-content-start mt-4">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="card mb-4 mt-4">
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Yönetici Bilgileri</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Favicon</label>
+                <div class="col-sm-10">
+                    <div class="col-sm-10">
+                        <div class="favicon-preview">
+                            <img src="~/images/favicon/favicon.png" alt="Logo" id="FaviconPreview" class="mb-3" style="max-width: 200px; max-height: 100px;">
+                        </div>
+                    </div>
+                    <input class="form-control" type="file" asp-for="FaviconFile">
+
+
+                    <div style="display: flex; justify-content:space-between;">
+                        <small class="text-muted">Favicon Boyutu 16x16 ölçülerinde ve katları şeklinde olmalıdır.</small>
+                        <small class="text-muted">Lütfen .png uzantılı bir dosya yükleyin.</small>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <div class="seo-preview">
+                        <h5 class="seo-url">@Context.Request.Host</h5>
+                        <p class="seo-title" id="seoTitlePreview"></p>
+                        <p class="seo-description" id="seoDescriptionPreview"></p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="Title">Başlık <span style="color: red;">*</span> </label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <span class="input-group-text"><i class="bx bx-edit-alt"></i></span>
+                        <input type="text" class="form-control" id="SeoTitle" asp-for="Title" oninput="updateSeoPreview()">
+                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="MetaDescription">Meta Açıklama <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <textarea class="form-control" id="MetaDescription" asp-for="MetaDescription" rows="3" oninput="updateSeoPreview()"></textarea>
+                    </div>
+                    <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="MetaKeyword">Anahtar Kelimeler <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <textarea class="form-control" id="MetaKeyword" asp-for="MetaKeyword" rows="3"></textarea>
+                    </div>
+                    <span asp-validation-for="MetaKeyword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="FooterInfo">Sayfa Alt Bilgi</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <textarea class="form-control textarea-editor" asp-for="FooterInfo" id="AboutUs"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="Cookie">Çerez Politikası Metni</label>
+                <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                        <textarea class="form-control textarea-editor" asp-for="Cookie" id="AboutUs"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="row justify-content-start mt-4">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+</form>
+
+
+
+
+<script>
+    document.getElementById('FaviconFile').addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var imgElement = document.getElementById('FaviconPreview');
+
+                // Eğer önceden bir logo varsa, sadece src'yi değiştir
+                if (imgElement) {
+                    imgElement.src = event.target.result;
+                } else {
+                    // Eğer daha önce bir logo yoksa yeni bir img elementi oluştur
+                    imgElement = document.createElement('img');
+                    imgElement.id = "FaviconPreview";
+                    imgElement.src = event.target.result;
+                    imgElement.style.maxWidth = '200px';
+                    imgElement.style.maxHeight = '100px';
+                    imgElement.classList.add('mb-3');
+
+                    document.querySelector('.favicon-preview').appendChild(imgElement);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+
+
+<script>
+        function updateSeoPreview() {
+
+        const seoTitle = document.getElementById('SeoTitle').value || '';
+        const metaDescription = document.getElementById('MetaDescription').value || '';
+
+
+        document.getElementById('seoTitlePreview').textContent = seoTitle;
+        document.getElementById('seoDescriptionPreview').textContent = metaDescription;
+    }
+
+        window.onload = function () {
+        updateSeoPreview();
+    };
+</script>
+
+
+
+<script>
+    setTimeout(function () {
+        const toastEl = document.getElementById('successToast');
+        if (toastEl) {
+            toastEl.classList.remove('show');
+            toastEl.classList.add('hide');
+        }
+    }, 3000);
+
+        setTimeout(function () {
+        const toastEl = document.getElementById('errorToast');
+        if (toastEl) {
+            toastEl.classList.remove('show');
+            toastEl.classList.add('hide');
+        }
+    }, 3000);
+
+</script>

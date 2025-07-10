@@ -1,0 +1,65 @@
+﻿@using KentBlog.UI.Utilities
+@model KentBlog.UI.ViewModels.FooterBlogCategoryViewModel
+
+<div class="col-lg-3 col-6">
+
+    <div class="widget widget_links">
+
+        @if (Model.AdminSettings.CategoryFooter)
+        {
+
+            <h4 class="text-transform-none ls-0">Kategoriler</h4>
+
+            <ul>
+                @foreach (var category in Model.Category
+               .Where(c => c.CategoryStatus)
+               .OrderBy(c => c.Order)
+               .Take(10))
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Kategori", new { id = category.CategoryID, seo = Helpers.UrlDostuYap(category.CategoryName) })">
+                            @category.CategoryName
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        }
+
+    </div>
+
+</div>
+
+
+<div class="col-lg-3 col-6">
+
+
+    <div class="widget widget_links">
+
+        @if (Model.AdminSettings.BlogFooter)
+        {
+            <h4 class="text-transform-none ls-0">Bloglar</h4>
+
+            <ul>
+                @foreach (var item in Model.Blogs
+               .Where(b => b.BlogStatus && b.BlogHide)
+               .OrderBy(b => b.Order)
+               .Take(10))
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Haber", new { id = item.Id, seo = Helpers.UrlDostuYap(item.SeoTitle) })">
+                            @item.Title
+                        </a>
+                    </li>
+                }
+
+
+            </ul>
+        }
+
+
+    </div>
+
+
+
+</div>

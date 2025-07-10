@@ -1,0 +1,183 @@
+﻿@model KentBlog.Entity.Concrete.AboutUs
+
+@{
+    ViewData["Title"] = "Hakkımızda Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="row mt-4">
+        <div class="col-8">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Hakkımızda Ekle</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Resim <span style="color: red;">*</span> </label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-10">
+                                <div class="logo-preview">
+                                    @if (Model != null && !string.IsNullOrEmpty(Model.Image))
+                                    {
+                                        <img src="@Url.Content(Model.Image)" alt="Logo" id="LogoPreview" class="mb-3" style="max-width: 200px; max-height: 100px;">
+                                    }
+                                </div>
+                            </div>
+
+                            <input class="form-control" type="file" asp-for="AboutFile">
+                            <span asp-validation-for="AboutFile" class="text-danger"></span>
+
+                            <div style="display: flex; justify-content:space-between;">
+                                <small class="text-muted"></small>
+                                <small class="text-muted">Desteklenen dosya türleri: .jpg .jpeg .png</small>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="Icon">İkon Seç <span style="color: red;">*</span> </label>
+                        <div class="col-sm-6">
+                            <div class="input-group input-group-merge mb-2">
+                                <input type="text" class="form-control" asp-for="Icon" id="iconInput" required>
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#iconModal">İkonları Göster</button>
+                            </div>
+                            <small class="text-muted">
+                                Font Awesome ikon listesine ulaşmak için
+                                <a href="https://fontawesome.com/search?ip=classic&s=solid&o=r" target="_blank">tıklayınız.</a>
+                            </small>
+                            <span asp-validation-for="Icon" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="iconModal" tabindex="-1" aria-labelledby="iconModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">İkon Seç</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <input type="text" id="iconSearch" class="form-control" placeholder="İkon ara...">
+                                    </div>
+
+                                    <div class="d-flex flex-wrap gap-4" id="iconGrid">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="Title">Başlık <span style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" asp-for="Title" required>
+                            </div>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" asp-for="Description">Açıklama</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <textarea class="form-control textarea-editor" asp-for="Description" id="EditorInfo"></textarea>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card mb-4">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Anahtar Bilgiler</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <div class="form-check form-switch mb-2">
+                                    <label class="form-check-label" asp-for="Status">Durumu</label>
+                                    <input class="form-check-input" asp-for="Status" type="checkbox" checked />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<partial name="_IconPickerPartial" />
+
+
+
+<script>
+    document.getElementById('AboutFile').addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var imgElement = document.getElementById('LogoPreview');
+
+                // Eğer önceden bir logo varsa, sadece src'yi değiştir
+                if (imgElement) {
+                    imgElement.src = event.target.result;
+                } else {
+                    // Eğer daha önce bir logo yoksa yeni bir img elementi oluştur
+                    imgElement = document.createElement('img');
+                    imgElement.id = "LogoPreview";
+                    imgElement.src = event.target.result;
+                    imgElement.style.maxWidth = '200px';
+                    imgElement.style.maxHeight = '100px';
+                    imgElement.classList.add('mb-3');
+
+                    document.querySelector('.logo-preview').appendChild(imgElement);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+

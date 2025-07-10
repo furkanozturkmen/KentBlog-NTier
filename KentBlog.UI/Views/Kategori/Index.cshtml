@@ -1,0 +1,80 @@
+﻿@using KentBlog.UI.Utilities
+@using System.Text.RegularExpressions
+@model KentBlog.UI.ViewModels.GetCategoryByBlogViewModel
+
+@{
+	ViewBag.Title = Html.Raw(Model.Category.SeoTitle);
+	ViewBag.Description = Html.Raw(Model.Category.MetaDescription);
+	ViewBag.Keywords = Html.Raw(Model.Category.MetaKeyword);
+
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+<div class="row" style="transform: none;">
+
+		<div class="col-lg-8">
+			<div class="mt-5">
+
+				<h4 class="mb-2 ls-1 text-uppercase fw-bold">@Model.Category.CategoryName</h4>
+				<div class="line line-xs line-sports"></div>
+
+				<div class="row col-mb-50 mb-0">
+					@foreach(var item in Model.Blogs)
+					{
+						<div class="entry col-12 mb-0">
+							<div class="grid-inner row">
+								<div class="col-md-5">
+									<div class="entry-image mb-0">
+										<a href="@Url.Action("Index", "Haber", new { id = item.Id, seo = Helpers.UrlDostuYap(item.SeoTitle) })"><img src="@Url.Content(item.Image)" alt="Image"></a>
+									</div>
+								</div>
+								<div class="col-md-7">
+									<div class="entry-title title-sm mt-3 mt-md-0">
+										<h3 class="mb-2"><a href="@Url.Action("Index", "Haber", new { id = item.Id, seo = Helpers.UrlDostuYap(item.SeoTitle) })">@item.Title</a></h3>
+									</div>
+									<div class="entry-meta">
+										<ul>
+											<li><i class="bi-clock"></i>@item.Date.Value.ToShortDateString()</li>
+										</ul>
+									</div>
+
+									@{
+
+										var content = item.Content ?? "";
+
+										// HTML etiketlerini kaldır (eğer sadece düz cümle istiyorsan)
+										var plainText = Regex.Replace(content, "<.*?>", " ");
+
+										// İlk cümleyi ayır (".", "!" veya "?" işaretlerine göre)
+										var sentenceEnd = new[] { '.', '!', '?' };
+										int firstEndIndex = plainText.IndexOfAny(sentenceEnd);
+
+										var firstSentence = firstEndIndex > 0
+										? plainText.Substring(0, firstEndIndex + 1).Trim()
+										: plainText.Trim(); // Eğer noktalama yoksa tamamını al
+
+
+										<div class="entry-content mt-3">
+											<p class="mb-0">
+												@Html.Raw(firstSentence)
+											</p>
+										</div>
+									}
+
+								</div>
+							</div>
+						</div>
+					}
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+		@await Component.InvokeAsync("OtherCategory", new { currentCategoryId = Model.CurrentCategoryId })
+
+	</div>
+</div>

@@ -1,0 +1,72 @@
+﻿
+@if (TempData["SuccessMessage"] != null)
+{
+
+    <div id="successToast" class="bs-toast toast toast-placement-ex m-2 fade bg-success top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"> <i class="icon-base bx bx-bell me-2"></i> @TempData["SuccessMessage"]</div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorToast" class="bs-toast toast toast-placement-ex m-2 fade bg-danger top-0 start-50 translate-middle-x show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"> <i class="icon-base bx bx-bell me-2"></i> @TempData["ErrorMessage"]</div>
+    </div>
+}
+
+<div id="ajaxToast" class="bs-toast toast toast-placement-ex m-2 fade top-0 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        <i class="icon-base bx bx-bell me-2"></i> <span id="ajaxToastMessage"></span>
+    </div>
+</div>
+
+
+
+<script>
+    setTimeout(function () {
+        const toastEl = document.getElementById('successToast');
+        if (toastEl) {
+            toastEl.classList.remove('show');
+            toastEl.classList.add('hide');
+        }
+    }, 3000);
+
+        setTimeout(function () {
+        const toastEl = document.getElementById('errorToast');
+        if (toastEl) {
+            toastEl.classList.remove('show');
+            toastEl.classList.add('hide');
+        }
+    }, 3000);
+
+
+
+        function showAjaxToast(message, isSuccess) {
+        const toast = document.getElementById('ajaxToast');
+        const toastMessage = document.getElementById('ajaxToastMessage');
+
+        // Temizle
+        toast.classList.remove('bg-success', 'bg-danger', 'show');
+
+        // Arka plan rengini ayarla
+        toast.classList.add(isSuccess ? 'bg-success' : 'bg-danger');
+
+        // Mesajı yerleştir
+        toastMessage.textContent = message;
+
+        // Göster
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+    }
+
+
+</script>

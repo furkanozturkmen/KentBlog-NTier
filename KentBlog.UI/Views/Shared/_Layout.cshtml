@@ -1,0 +1,127 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="author" content="Kentmedia İnternet Hizmetleri">
+    @await Component.InvokeAsync("Favicon")
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <title>@ViewBag.Title</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/main/style.css">
+
+    <link rel="stylesheet" href="~/main/css/font-icons.css">
+    <link rel="stylesheet" href="~/main/one-page/css/et-line.css" />
+
+    <link rel="stylesheet" href="~/main/include/rs-plugin/css/settings.css">
+    <link rel="stylesheet" href="~/main/include/rs-plugin/css/layers.css">
+    <link rel="stylesheet" href="~/main/include/rs-plugin/css/navigation.css">
+
+
+    <link rel="stylesheet" href="~/main/news/news.css">
+
+    <link rel="stylesheet" href="~/main/css/custom.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <style>
+        /* Revolution Slider Styles */
+        .hesperiden .tp-tab {
+            border-bottom: 0;
+        }
+
+            .hesperiden .tp-tab:hover,
+            .hesperiden .tp-tab.selected {
+                background-color: #E5E5E5;
+            }
+
+        @await Component.InvokeAsync("PrivateCSS")
+
+    </style>
+
+</head>
+
+<body class="stretched">
+
+
+    <div id="wrapper">
+
+
+        <partial name="_MainHeaderPartial" />
+
+        @{
+            var isHomePage = ViewData["IsHomePage"] != null && (bool)ViewData["IsHomePage"];
+            var isMenuPage = ViewData["IsMenuPage"] != null && (bool)ViewData["IsMenuPage"];
+        }
+
+        @if (isHomePage)
+        {
+            <partial name="_MainSliderPartial" />
+        }
+
+
+        <section id="content">
+            @if (isMenuPage)
+            {
+                <section class="page-title" style="background: aqua, url('demos/news/images/page-title-category.jpg') no-repeat center center; background-size: cover; padding: 80px 0;">
+                    <div class="container">
+                        <div class="page-title-row">
+
+                            <div class="page-title-content">
+                                <h1>@ViewBag.PageTitle</h1>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            }
+
+            <div class="content-wrap">
+                    @RenderBody()
+            </div>
+
+        </section>
+
+
+        <partial name="_MainFooterPartial" />
+
+    </div>
+
+    <div id="gotoTop" class="uil uil-angle-up"></div>
+
+    <script src="~/main/js/plugins.min.js"></script>
+    <script src="~/main/js/functions.bundle.js"></script>
+    <script src="~/main/js/plugins.infinitescroll.js"></script>
+
+    <!-- SLIDER REVOLUTION 5.x SCRIPTS  -->
+    <script src="~/main/include/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.actions.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.carousel.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.kenburn.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.migration.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="~/main/include/rs-plugin/js/extensions/revolution.extension.video.min.js"></script>
+
+    <!-- ADD-ONS JS FILES -->
+    <partial name="_MainAddOnsJsPartial" />
+
+</body>
+</html>

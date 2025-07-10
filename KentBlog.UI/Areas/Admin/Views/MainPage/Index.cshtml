@@ -1,0 +1,137 @@
+﻿@model List<KentBlog.Entity.Concrete.OpeningPage>
+
+@{
+    ViewData["Title"] = "Açılış Sayfası Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<partial name="_ToastPartial" />
+
+
+
+<div class="card mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header">Açılış Sayfası Yönetimi</h5>
+        <div>
+
+            <a class="btn btn-sm btn-success" href="/admin/mainpage/create"><i class="bx bx-plus me-1"></i>Yeni Editör İçerik</a>
+        </div>
+
+    </div>
+
+    <div class="table-responsive text-nowrap">
+
+        <table class="table table-hover text-center" id="menuTable">
+            <thead>
+                <tr>
+                    <th class="text-start">Adı</th>
+                    <th>Durumu</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-border-bottom-0" id="sortable">
+                @foreach (var item in Model)
+                {
+                    <tr data-id="@item.ID" class="menu-item">
+
+                        <td class="text-start">
+                            <span>@item.Name</span>
+                        </td>
+
+                        <td><span class="badge @(item.Status ? "bg-label-success" : "bg-label-danger") me-1"> @(item.Status ? "Aktif" : "Pasif") </span></td>
+
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="/admin/mainpage/edit/@item.ID"><i class="bx bx-edit-alt me-1"></i> Düzenle</a>
+
+                            <a class="btn btn-sm btn-danger change-status" data-id="@item.ID" title="Durum Değiştir">
+                                <i class="bx bx-refresh"></i> Durum Değiştir
+                            </a>
+
+                            @if (item.SectionKey == "editor")
+                            {
+                                <a class="btn btn-sm btn-danger change-status" href="/admin/mainpage/delete/@item.ID" data-id="@item.ID" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');" title="Sil">
+                                    <i class="bx bx-refresh"></i> Sil
+                                </a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+            <caption><br></caption>
+        </table>
+
+
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+
+    <script>
+        $(document).ready(function () {
+            $(".change-status").click(function () {
+                var menuId = $(this).data("id");
+                var token = $('input[name="__RequestVerificationToken"]').val(); 
+
+                $.ajax({
+                    url: "/Admin/MainPage/ChangeStatus",
+                    type: "POST",
+                    data: { id: menuId },
+                    headers: {
+                        "RequestVerificationToken": token
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert("Bir hata oluştu!");
+                        }
+                    },
+                    error: function () {
+                        alert("İstek gönderilirken bir hata oluştu!");
+                    }
+                });
+            });
+        });
+</script>
+
+
+
+<script>
+       document.addEventListener('DOMContentLoaded', function () {
+        var sortable = new Sortable(document.getElementById('sortable'), {
+            handle: 'tr',
+            onEnd: function (evt) {
+
+                updateItemOrder();
+            }
+        });
+    });
+
+
+    function updateItemOrder() {
+        var orderedIds = [];
+        var rows = document.querySelectorAll('#sortable tr');
+
+        rows.forEach(function (row) {
+            orderedIds.push(row.getAttribute('data-id'));
+        });
+
+        $.ajax({
+            url: '/Admin/MainPage/updateItemOrder',
+            type: 'POST',
+            data: { orderedIds: orderedIds },
+            success: function (response) {
+                showAjaxToast(response.message, response.success);
+            },
+            error: function () {
+                showAjaxToast("Sıralama güncellenirken bir hata oluştu.", false);
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,216 @@
+﻿@model List<KentBlog.Entity.Concrete.Menu>
+
+
+@{
+    ViewData["Title"] = "Menü Yönetimi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<partial name="_ToastPartial" />
+
+<style>
+    .submenu-row td {
+        padding-left: 30px;
+        font-weight: normal;
+    }
+
+</style>
+
+
+<div class="card mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header">Menü Yönetimi</h5>
+        <div>
+            <button class="btn btn-sm btn-danger d-none me-2" id="deleteSelectedPopover"> <i class="bx bx-trash me-1"></i> Seçilenleri Sil </button>
+
+
+            <a class="btn btn-sm btn-success" href="/admin/menu/create"><i class="bx bx-plus me-1"></i>Yeni Menü</a>
+        </div>
+
+    </div>
+
+    <div class="table-responsive text-nowrap">
+
+        <table class="table table-hover text-center" id="menuTable">
+            <thead>
+                <tr>
+                    <th class="text-start">Menü Adı</th>
+                    <th>Görünümü</th>
+                    <th>Durumu</th>
+                    <th>Bağlı Olduğu Menü</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+
+            @{
+
+                var menus = ViewBag.Menus as IEnumerable<SelectListItem>;
+
+                var menuDict = menus?.ToDictionary(m => m.Value, m => m.Text);
+            }
+
+            <tbody class="table-border-bottom-0" id="sortable">
+                @foreach (var item in Model.OrderBy(m => m.Order))
+                {
+                    <tr data-id="@item.MenuID" class="menu-item @item.SubMenuSelect">
+                        <td class="text-start">
+                            @if (!string.IsNullOrEmpty(item.SubMenuSelect))
+                            {
+                                <i class='bx bx-subdirectory-right'></i>
+                            }
+                            <span>@item.Name</span>
+                        </td>
+                        <td><span class="badge @(item.MenuHide ? "bg-label-success" : "bg-label-danger") me-1"> @(item.MenuHide ? "Aktif" : "Pasif") </span></td>
+                        <td><span class="badge @(item.MenuStatus ? "bg-label-success" : "bg-label-danger") me-1"> @(item.MenuStatus ? "Aktif" : "Pasif") </span></td>
+
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.SubMenuSelect) && menuDict != null && menuDict.ContainsKey(item.SubMenuSelect))
+                            {
+                                <span class="submenu-name">@menuDict[item.SubMenuSelect]</span>
+                            }
+                            else
+                            {
+                                <span></span>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="/admin/menu/edit/@item.MenuID"><i class="bx bx-edit-alt me-1"></i> Düzenle</a>
+
+
+                            <a class="btn btn-sm btn-danger change-status" data-id="@item.MenuID" title="Durum Değiştir">
+                                <i class="bx bx-refresh"></i> Durum Değiştir
+                            </a>
+
+                            @if (item.MenuKey == "icerik")
+                            {
+                                <a class="btn btn-sm btn-secondary change-hide" data-id="@item.MenuID" title="Görünüm Değiştir">
+                                    <i class="bx bx-refresh"></i> Görünüm Değiştir
+                                </a>
+                            }
+
+
+                            @if (item.MenuKey == "icerik")
+                            {
+                                <a class="btn btn-sm btn-danger" href="/admin/menu/delete/@item.MenuID" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');"> <i class="bx bx-trash me-1"></i> Sil </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <caption>Kayıt Sayısı: @ViewBag.Menucount</caption>
+        </table>
+
+
+
+
+
+
+    </div>
+</div>
+
+
+@Html.AntiForgeryToken()
+
+<script>
+    $(document).ready(function () {
+        $(".change-status").click(function () {
+            var menuId = $(this).data("id");
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: "/Admin/Menu/ChangeMenuStatus",
+                type: "POST",
+                data: { id: menuId },
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert("Bir hata oluştu!");
+                    }
+                },
+                error: function () {
+                    alert("İstek gönderilirken bir hata oluştu!");
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".change-hide").click(function () {
+            var menuId = $(this).data("id");
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: "/Admin/Menu/ChangeMenuHide",
+                type: "POST",
+                data: { id: menuId },
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert("Bir hata oluştu!");
+                    }
+                },
+                error: function () {
+                    alert("İstek gönderilirken bir hata oluştu!");
+                }
+            });
+        });
+    });
+
+
+</script>
+
+
+<script>
+       document.addEventListener('DOMContentLoaded', function () {
+        var sortable = new Sortable(document.getElementById('sortable'), {
+            handle: 'tr',
+            onEnd: function (evt) {
+
+                updateMenuOrder();
+            }
+        });
+    });
+
+
+    function updateMenuOrder() {
+        var orderedIds = [];
+        var rows = document.querySelectorAll('#sortable tr');
+
+        rows.forEach(function (row) {
+            orderedIds.push(row.getAttribute('data-id'));
+        });
+
+        $.ajax({
+            url: '/Admin/Menu/UpdateMenuOrder',
+            type: 'POST',
+            data: { orderedIds: orderedIds },
+            success: function (response) {
+                showAjaxToast(response.message, response.success);
+            },
+            error: function () {
+                showAjaxToast("Sıralama güncellenirken bir hata oluştu.", false);
+            }
+        });
+    }
+
+</script>

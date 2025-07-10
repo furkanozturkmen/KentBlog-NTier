@@ -1,0 +1,52 @@
+﻿@model List<KentBlog.Entity.Concrete.Visitor>
+
+@{
+    ViewData["Title"] = "Ziyaretçi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div class="card mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header">Ziyaretçi İstatistikleri</h5>
+        <div>
+        </div>
+
+    </div>
+
+    <div class="table-responsive text-nowrap">
+
+        <table class="table table-hover text-center" id="menuTable">
+            <thead>
+                <tr>
+                    <th class="text-start">Ziratçi IP</th>
+                    <th class="text-start">Açıklama</th>
+                    <th>Tarih</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-border-bottom-0" id="sortable">
+                @foreach (var item in Model)
+                {
+                    <tr data-id="@item.VisitorIP" class="menu-item">
+
+                        <td class="text-start">
+                            <span>@item.VisitorIP</span>
+                        </td>
+
+                        <td class="text-start">
+                            <span>@item.VisitorDescription</span>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+            <caption><br></caption>
+        </table>
+
+
+    </div>
+</div>
+
